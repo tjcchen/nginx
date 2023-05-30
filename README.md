@@ -20,6 +20,12 @@ nginx -s reload
 
 # include a mime.types file fix all the content-type issues
 include mime.types;
+
+# load balancer( Round-robin scheduling )
+# forward user requests to different servers
+
+
+
 ```
 
 ## License

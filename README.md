@@ -48,5 +48,38 @@ http {
 }
 ```
 
+## How To Configure Your TLS/SSl
+```sh
+# step1: create a ssl cert directory
+sudo mkdir -p /usr/local/etc/nginx/ssl
+
+# check openssl existence
+openssl version
+
+# step2: generate certs
+# we generate a certificate( nginx.crt ) and private key( nginx.key ) under /usr/local/etc/nginx/ssl/ directory
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /usr/local/etc/nginx/ssl/nginx.key -out /usr/local/etc/nginx/ssl/nginx.crt
+
+# step3: set your nginx config
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  # SSL config
+  listen 443 ssl default_server;
+  listen [::]:443 ssl default_server;
+
+  # SSL cert & key config
+  ssl_certificate /usr/local/etc/nginx/ssl/nginx.crt;
+  ssl_certificate_key /usr/local/etc/nginx/ssl/nginx.key;
+
+  # ...
+}
+
+# step4: restart your server
+sudo service nginx restart
+nginx -s reload
+```
+
 ## License
 MIT
